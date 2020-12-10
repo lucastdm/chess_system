@@ -14,6 +14,11 @@ public class UI {
     public static final String YELLOW = "\033[1;93m";  // YELLOW BOLD BRIGHT
     public static final String PURPLE_BACKGROUND = "\033[0;105m"; // PURPLE BRIGHT
 	
+    public static void clearScreen() {
+    	System.out.print("\033[H\033[2J");
+    	System.out.flush();
+    }
+    
     public static ChessPosition readChessPosition(Scanner sc) {
     	try {
 	    	String s = sc.nextLine();
