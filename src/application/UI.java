@@ -12,7 +12,7 @@ public class UI {
     public static final String RESET = "\033[0m";  // Text Reset
     public static final String WHITE = "\033[1;97m";   // WHITE BOLD BRIGHT
     public static final String YELLOW = "\033[1;93m";  // YELLOW BOLD BRIGHT
-    public static final String PURPLE_BACKGROUND = "\033[0;105m"; // PURPLE BRIGHT
+    public static final String BACKGROUND = "\u001b[47m"; // GREEN BRIGHT
 	
     public static void clearScreen() {
     	System.out.print("\033[H\033[2J");
@@ -35,16 +35,30 @@ public class UI {
 		for (int i=0; i<pieces.length; i++) {
 			System.out.print((8-i) + " ");
 			for (int j=0; j<pieces.length; j++) {
-				printPiece(pieces[i][j]);
+				printPiece(pieces[i][j], false);
 			}
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
 	}
 	
-	private static void printPiece(ChessPiece piece) {
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+		for (int i=0; i<pieces.length; i++) {
+			System.out.print((8-i) + " ");
+			for (int j=0; j<pieces.length; j++) {
+				printPiece(pieces[i][j], possibleMoves[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println("  a b c d e f g h");
+	}
+	
+	private static void printPiece(ChessPiece piece, boolean background) {
+		if (background) {
+			System.out.print(BACKGROUND);
+		}
 		if (piece == null) 
-			System.out.print("·");
+			System.out.print("·" + RESET);
 		else {
 			if (piece.getColor() == Color.WHITE)
 				System.out.print(WHITE + piece + RESET);
