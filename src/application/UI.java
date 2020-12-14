@@ -13,10 +13,11 @@ import chess.Color;
 
 public class UI {
 	
-    public static final String RESET = "\033[0m";  // Text Reset
-    public static final String WHITE = "\033[1;97m";   // WHITE BOLD BRIGHT
-    public static final String YELLOW = "\033[1;93m";  // YELLOW BOLD BRIGHT
-    public static final String BACKGROUND = "\u001b[47m"; // GREEN BRIGHT
+    public static final String RESET = "\033[0m";  // RESET COLOR
+    public static final String CHECK_COLOR = "\u001b[31;1m"; // RED
+    public static final String WHITE_PIECE_COLOR = "\033[1;97m";  // WHITE
+    public static final String BLACK_PIECE_COLOR = "\u001b[32m";  // GREEN
+    public static final String BACKGROUND_COLOR = "\u001b[43;1m"; // YELLOW
 	
     public static void clearScreen() {
     	System.out.print("\033[H\033[2J");
@@ -42,6 +43,9 @@ public class UI {
     	System.out.println();
     	System.out.println("Turn: " + chessMatch.getTurn());
     	System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+    	if (chessMatch.getCheck()) {
+    		System.out.println(CHECK_COLOR + "CHECK!" + RESET);
+    	}
     }
     
 	public static void printBoard(ChessPiece[][] pieces) {
@@ -68,15 +72,15 @@ public class UI {
 	
 	private static void printPiece(ChessPiece piece, boolean background) {
 		if (background) {
-			System.out.print(BACKGROUND);
+			System.out.print(BACKGROUND_COLOR);
 		}
 		if (piece == null) 
 			System.out.print("·" + RESET);
 		else {
 			if (piece.getColor() == Color.WHITE)
-				System.out.print(WHITE + piece + RESET);
+				System.out.print(WHITE_PIECE_COLOR + piece + RESET);
 			else 
-				System.out.print(YELLOW + piece + RESET);
+				System.out.print(BLACK_PIECE_COLOR + piece + RESET);
 		}
 		System.out.print(" ");
 	}
@@ -86,11 +90,11 @@ public class UI {
 		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
 		System.out.println("Captured pieces: ");
 		System.out.print("White: ");
-		System.out.print(WHITE);
+		System.out.print(WHITE_PIECE_COLOR);
 		System.out.println(Arrays.toString(white.toArray()));
 		System.out.println(RESET);
 		System.out.print("Black: ");
-		System.out.print(YELLOW);
+		System.out.print(BLACK_PIECE_COLOR);
 		System.out.println(Arrays.toString(black.toArray()));
 		System.out.println(RESET);
 	}
